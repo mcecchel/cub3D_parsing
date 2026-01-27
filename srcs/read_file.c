@@ -6,7 +6,7 @@
 /*   By: mcecchel <mcecchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 13:56:36 by mcecchel          #+#    #+#             */
-/*   Updated: 2026/01/20 18:04:27 by mcecchel         ###   ########.fr       */
+/*   Updated: 2026/01/27 20:05:30 by mcecchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,8 @@ char	**read_file_lines(char *filename, int *line_count)
 	while (line)
 	{
 		// Rimuovo newline finale se presente
-		// if (line[ft_strlen(line) - 1] == '\n')
-		// 	line[ft_strlen(line) - 1] = '\0';
+		if (line[ft_strlen(line) - 1] == '\n')
+			line[ft_strlen(line) - 1] = '\0';
 		total_lines[i] = line;
 		i++;
 		line = get_next_line(fd);

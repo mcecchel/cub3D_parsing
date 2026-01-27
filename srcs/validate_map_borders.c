@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   validate_map_borders.c                             :+:      :+:    :+:   */
+/*   parse_map_borders.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mcecchel <mcecchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -97,7 +97,7 @@ static int	flood_fill(t_game *game, char **map_copy, int x, int y)
 	return (flood_fill_recursive(game, map_copy, x, y));
 }
 
-int	validate_map_borders(t_game *game)
+int	parse_map_borders(t_game *game)
 {
 	char	**map_copy;
 	int		player_x;

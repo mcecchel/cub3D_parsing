@@ -6,7 +6,7 @@
 /*   By: mcecchel <mcecchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 15:22:07 by mcecchel          #+#    #+#             */
-/*   Updated: 2026/01/27 12:46:42 by mcecchel         ###   ########.fr       */
+/*   Updated: 2026/01/27 20:12:44 by mcecchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,15 +28,14 @@ int	find_map_start(t_game *game)
 			continue ;
 		}
 		// Se NON è un identificatore valido è l'inizio della mappa
-		if (is_valid_identifier(game->parse->file_lines[i]))
+		if (!is_valid_identifier(game->parse->file_lines[i]))
 		{
-			elements_found++;
-			i++;
-			continue ;
-		}
-		// Se non è vuota e non è un elemento valido, è l'inizio della mappa
-		if (elements_found >= 6)
-		{
+			// Prima di considerarla mappa, verifico che sia una riga valida (1, 0, spazi)
+			if (elements_found < 6)
+			{
+				fd_printf(2, "Error: Invalid line before all elements are set\n");
+				return (-1);
+			}
 			game->parse->map_start = i;
 			return (0);
 		}
