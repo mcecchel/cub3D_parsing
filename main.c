@@ -6,7 +6,7 @@
 /*   By: mcecchel <mcecchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 15:33:54 by mcecchel          #+#    #+#             */
-/*   Updated: 2026/01/27 20:02:54 by mcecchel         ###   ########.fr       */
+/*   Updated: 2026/01/27 19:43:11 by mcecchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	main(int ac, char **av)
 		return (1);
 	}
 	// Estrazione e validazione mappa
-	if (parse_map(game) == -1)
+	if (validate_map(game) == -1)
 	{
 		free_game(game);
 		return (1);

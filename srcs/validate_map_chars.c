@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_map_chars.c                               :+:      :+:    :+:   */
+/*   validate_map_chars.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mcecchel <mcecchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -24,9 +24,6 @@ int	validate_and_find_player(t_game *game)
 	int		player_y;
 	char	player_dir;
 
-	player_x = -1;
-	player_y = -1;
-	player_dir = '\0';
 	// Scorro la mappa
 	y = 0;
 	while (y < game->map->height)

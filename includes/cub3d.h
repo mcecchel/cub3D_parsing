@@ -6,7 +6,7 @@
 /*   By: mcecchel <mcecchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 14:41:04 by mcecchel          #+#    #+#             */
-/*   Updated: 2026/01/27 20:02:54 by mcecchel         ###   ########.fr       */
+/*   Updated: 2026/01/27 19:40:53 by mcecchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -235,9 +235,9 @@ void	free_map_rows(char **map_grid, int row_count);
 // Valida caratteri e trova il player
 int		validate_and_find_player(t_game *game);
 // Verifica che la mappa sia chiusa
-int		parse_map_borders(t_game *game);
+int		validate_map_borders(t_game *game);
 // Validazione completa della mappa
-int		parse_map(t_game *game);
+int		validate_map(t_game *game);
 
 // Utility
 
