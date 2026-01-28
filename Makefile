@@ -20,10 +20,16 @@ SRCS		= main.c \
 			  $(SRC_DIR)/parse_file.c \
 			  $(SRC_DIR)/parse_texture.c \
 			  $(SRC_DIR)/parse_color.c \
+			  $(SRC_DIR)/extract_map.c \
+			  $(SRC_DIR)/validate_map_borders.c \
+			  $(SRC_DIR)/validate_map_chars.c \
+			  $(SRC_DIR)/validate_map.c \
 			  $(SRC_DIR)/cleanup.c \
 			  $(SRC_DIR)/utils/parse_utils.c \
 			  $(SRC_DIR)/utils/parse_texture_utils.c \
 			  $(SRC_DIR)/utils/parse_color_utils.c \
+			  $(SRC_DIR)/utils/extract_map_utils.c \
+			  $(SRC_DIR)/utils/validate_map_chars_utils.c \
 			  $(SRC_DIR)/utils/init_structs_utils.c \
 			  $(SRC_DIR)/utils/cleanup_utils.c \
 			  $(SRC_DIR)/errors/parse_file_errors.c

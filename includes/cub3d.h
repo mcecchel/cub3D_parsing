@@ -6,7 +6,7 @@
 /*   By: mcecchel <mcecchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 14:41:04 by mcecchel          #+#    #+#             */
-/*   Updated: 2026/01/27 19:40:53 by mcecchel         ###   ########.fr       */
+/*   Updated: 2026/01/27 20:56:18 by mcecchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,7 +215,7 @@ char	*extract_rgb_str(char *line, int identifier_len);
 int		fill_map_grid(t_game *game, char **map_grid, int map_width);
 int		extract_map(t_game *game);
 
-// Utility per parsing mappa (parse_map_utils.c)
+// Utility per parsing mappa (validate_map_utils.c)
 
 // Calcola l'altezza della mappa (:quante righe NON vuote ci sono da map_start alla fine)
 int		get_map_height(t_game *game);

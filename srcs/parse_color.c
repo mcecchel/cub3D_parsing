@@ -6,23 +6,11 @@
 /*   By: mcecchel <mcecchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 18:07:11 by mcecchel          #+#    #+#             */
-/*   Updated: 2026/01/27 11:47:06 by mcecchel         ###   ########.fr       */
+/*   Updated: 2026/01/27 20:50:01 by mcecchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-static void	debug_color_parsing(char *line)
-{
-	fd_printf(2, "DEBUG - Line: [%s]\n", line);
-	fd_printf(2, "DEBUG - Line length: %d\n", ft_strlen(line));
-	int i = 0;
-	while (line[i])
-	{
-		fd_printf(2, "DEBUG - Char[%d]: '%c'\n", i, line[i], line[i]);
-		i++;
-	}
-}
 
 int	parse_floor_color(t_game *game, char *line)
 {
@@ -38,8 +26,7 @@ int	parse_floor_color(t_game *game, char *line)
 	// Estraggo riga RGB dopo F
 	rgb_str = extract_rgb_str(line, 1);
 	if (!rgb_str)
-	return (-1);
-	debug_color_parsing(rgb_str);
+		return (-1);
 	// Parso e valido i valori RGB
 	if (parse_rgb_values(rgb_str, rgb_val) == -1)
 	{
@@ -69,8 +56,7 @@ int	parse_ceiling_color(t_game *game, char *line)
 	}
 	rgb_str = extract_rgb_str(line, 1);
 	if (!rgb_str)
-	return (-1);
-	debug_color_parsing(rgb_str);
+		return (-1);
 	if (parse_rgb_values(rgb_str, rgb_val) == -1)
 	{
 		free(rgb_str);

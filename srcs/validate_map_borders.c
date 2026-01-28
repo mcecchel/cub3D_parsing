@@ -6,11 +6,14 @@
 /*   By: mcecchel <mcecchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 15:27:41 by mcecchel          #+#    #+#             */
-/*   Updated: 2026/01/27 19:36:20 by mcecchel         ###   ########.fr       */
+/*   Updated: 2026/01/27 20:43:28 by mcecchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+// Forward declaration
+static int	flood_fill(t_game *game, char **map_copy, int x, int y);
 
 // Crea una copia della mappa
 static char	**copy_map(t_game *game)

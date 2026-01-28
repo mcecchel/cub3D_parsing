@@ -6,7 +6,7 @@
 /*   By: mcecchel <mcecchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 17:00:37 by mcecchel          #+#    #+#             */
-/*   Updated: 2026/01/27 14:39:09 by mcecchel         ###   ########.fr       */
+/*   Updated: 2026/01/27 20:55:19 by mcecchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,25 +18,17 @@ static int	parse_element(t_game *game, char *line)
 	int	i;
 
 	i = skip_whitespaces(line, 0);
-	
-	fd_printf(2, "DEBUG: Parsing line='%s'\n", line);
-	fd_printf(2, "DEBUG: After skip, i=%d, char='%c' (ASCII: %d)\n", i, line[i], line[i]);
-	
 	// Controllo se è una texture (NO, SO, WE, EA)
 	if (ft_strncmp(&line[i], "NO ", 3) == 0
 		|| ft_strncmp(&line[i], "SO ", 3) == 0
 		|| ft_strncmp(&line[i], "WE ", 3) == 0
 		|| ft_strncmp(&line[i], "EA ", 3) == 0)
 		return (parse_texture(game, line));
-	
 	// Controllo se è un colore (F, C)
 	if (ft_strncmp(&line[i], "F ", 2) == 0
 		|| ft_strncmp(&line[i], "C ", 2) == 0)
 		return (parse_color(game, line));
-	
-	fd_printf(2, "DEBUG: Not texture, not color. line[%d]='%c', is_1=%d\n", 
-		i, line[i], line[i] == '1');
-	
+	// Se non e' texture, colore o muro, errore
 	if (line[i] && line[i] != '1')
 	{
 		fd_printf(2, "Error: Invalid element identifier: '%c'\n", line[i]);
@@ -50,8 +42,6 @@ static int	parse_elements(t_game *game)
 {
 	int	i;
 
-	fd_printf(2, "DEBUG: map_start = %d\n", game->parse->map_start);
-	fd_printf(2, "DEBUG: Total lines = %d\n", game->parse->line_count);
 	i = 0;
 	while (i < game->parse->map_start)
 	{
@@ -64,8 +54,8 @@ static int	parse_elements(t_game *game)
 		// Parsa elemento singolo
 		if (parse_element(game, game->parse->file_lines[i]) < 0)
 		{
-			// fd_printf(2, "Error: Failed to parse line %d\n",
-			// 	i + 1, game->parse->file_lines[i]);
+			fd_printf(2, "Error: Failed to parse line %d\n",
+				i + 1, game->parse->file_lines[i]);
 			return (-1); // Errore nel parsing
 		}
 		i++;
@@ -104,7 +94,7 @@ int	parse_file(t_game *game, char *filename)
 	if (are_all_elements_set(game) == -1)
 		return (-1); // Mancano elementi obbligatori
 	// Estrazione mappa
-	if (parse_map(game) == -1)
+	if (validate_map(game) == -1)
 		return (-1); 
 	fd_printf(1, "✅ Elements parsed successfully!\n");
 	fd_printf(1, "North: %s\n", game->tex_north->path);
