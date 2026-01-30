@@ -6,7 +6,7 @@
 /*   By: mcecchel <mcecchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 15:33:54 by mcecchel          #+#    #+#             */
-/*   Updated: 2026/01/27 20:55:19 by mcecchel         ###   ########.fr       */
+/*   Updated: 2026/01/29 17:50:34 by mcecchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,13 @@ int	main(int ac, char **av)
 		fd_printf(2, "Error: Failed to initialize game\n");
 		exit (-1);
 	}
-	// Parsing texture e colori
+	// Parsing texture, colori E estrazione mappa
 	if (parse_file(game, av[1]) == -1)
 	{
 		free_game(game);
 		return (1);
 	}
-	// Estrazione e validazione mappa
+	// Validazione mappa (caratteri, player, bordi)
 	if (validate_map(game) == -1)
 	{
 		free_game(game);

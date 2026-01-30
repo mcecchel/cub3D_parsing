@@ -6,7 +6,7 @@
 /*   By: mcecchel <mcecchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 18:07:35 by mcecchel          #+#    #+#             */
-/*   Updated: 2026/01/27 11:18:34 by mcecchel         ###   ########.fr       */
+/*   Updated: 2026/01/29 18:17:56 by mcecchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,41 +22,69 @@ int	validate_rgb_val(int value)
 	return (0);
 }
 
-int	parse_rgb_values(char *rgb_str, int *values)
+char	**validate_and_split_rgb(char *rgb_str)
 {
 	char	**rgb_strs;
 	int		i;
 
+	if (count_commas(rgb_str) != 2)
+	{
+		fd_printf(2, "Error: Invalid RGB format (must have 2 commas)\n");
+		return (NULL);
+	}
 	rgb_strs = ft_split(rgb_str, ',');
 	if (!rgb_strs)
 	{
 		fd_printf(2, "Error: Memory allocation failed\n");
-		return (-1);
+		return (NULL);
 	}
 	i = 0;
-	// Check se in rgb_strs ci sono esattamente 3 valori (r, g, b)
 	while (rgb_strs[i])
 		i++;
 	if (i != 3)
 	{
 		fd_printf(2, "Error: Invalid RGB format (expected 3 values)\n");
 		free_array(rgb_strs);
+		return (NULL);
+	}
+	return (rgb_strs);
+}
+
+int	process_single_rgb_val(char *rgb_str, int *value)
+{
+	char	*trimmed;
+
+	trimmed = ft_strtrim(rgb_str, " \t\n\r");
+	if (!trimmed)
+	{
+		fd_printf(2, "Error: Memory allocation failed\n");
 		return (-1);
 	}
-	// Converto e valido ogni valore RGB
+	if (!is_valid_nbr(trimmed))
+	{
+		fd_printf(2, "Error: RGB value is not a valid number\n");
+		free(trimmed);
+		return (-1);
+	}
+	*value = ft_atoi(trimmed);
+	free(trimmed);
+	if (validate_rgb_val(*value) == -1)
+		return (-1);
+	return (0);
+}
+
+int	parse_rgb_vals(char *rgb_str, int *values)
+{
+	char	**rgb_strs;
+	int		i;
+
+	rgb_strs = validate_and_split_rgb(rgb_str);
+	if (!rgb_strs)
+		return (-1);
 	i = 0;
 	while (i < 3)
 	{
-		if (!is_valid_nbr(rgb_strs[i]))
-		{
-			fd_printf(2, "Error: RGB value is not a valid number\n");
-			free_array(rgb_strs);
-			return (-1);
-		}
-		// Converto in int
-		values[i] = ft_atoi(rgb_strs[i]);
-		// Valido range
-		if (validate_rgb_val(values[i]) == -1)
+		if (process_single_rgb_val(rgb_strs[i], &values[i]) == -1)
 		{
 			free_array(rgb_strs);
 			return (-1);
@@ -71,24 +99,4 @@ int	parse_rgb_values(char *rgb_str, int *values)
 int	rgb_to_hex(int r, int g, int b)
 {
 	return ((r << 16) | (g << 8) | b);
-}
-
-char	*extract_rgb_str(char *line, int identifier_len)
-{
-	char	*rgb_str;
-	char	*trimmed;
-	int		i;
-
-	i = identifier_len;
-	i = skip_whitespaces(line, i);
-	if (!line[i])
-		return (NULL);
-	// Estrai la parte RGB
-	rgb_str = ft_strdup(&line[i]);
-	if (!rgb_str)
-		return (NULL);
-	// Rimuovi newline, spazi e tab all'inizio e alla fine
-	trimmed = ft_strtrim(rgb_str, " \t\n\r");
-	free(rgb_str);
-	return (trimmed);
 }

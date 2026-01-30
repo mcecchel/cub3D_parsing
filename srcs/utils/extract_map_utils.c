@@ -6,7 +6,7 @@
 /*   By: mcecchel <mcecchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 14:09:43 by mcecchel          #+#    #+#             */
-/*   Updated: 2026/01/27 15:31:09 by mcecchel         ###   ########.fr       */
+/*   Updated: 2026/01/28 17:11:57 by mcecchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,11 @@ char	*pad_map_line(char *line, int width)
 	if (!padded_line)
 		return (NULL);
 	line_len = ft_strlen(line);
+	// Rimuovi il newline se presente
+	if (line_len > 0 && line[line_len - 1] == '\n')
+		line_len--;
 	i = 0;
-	// Copio la riga originale
+	// Copio la riga originale (senza newline)
 	while (i < line_len)
 	{
 		padded_line[i] = line[i];

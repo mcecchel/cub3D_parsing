@@ -6,7 +6,7 @@
 /*   By: mcecchel <mcecchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 15:54:38 by mcecchel          #+#    #+#             */
-/*   Updated: 2026/01/23 16:48:42 by mcecchel         ###   ########.fr       */
+/*   Updated: 2026/01/29 18:48:15 by mcecchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@ char	*get_texture_path(char *line, int identifier_len)
 	char	*path;
 
 	// salto identificatori
-	i = skip_whitespaces(line, 0);
+	i = skip_spaces(line, 0);
 	i += identifier_len;
 	// salto spazi dopo identificatore
-	i = skip_whitespaces(line, i);
+	i = skip_spaces(line, i);
 	start = i;
 	// trovo fine del path
 	while (line[i] && line[i] != ' ' && line[i] != '\t' && line[i] != '\n')
@@ -67,7 +67,7 @@ int	parse_texture(t_game *game, char *line)
 {
 	int	i;
 
-	i = skip_whitespaces(line, 0);
+	i = skip_spaces(line, 0);
 	// Identifico il tipo di texture
 	if (ft_strncmp(&line[i], "NO ", 3) == 0)
 		return (parse_north_texture(game, line));
@@ -78,6 +78,7 @@ int	parse_texture(t_game *game, char *line)
 	else if (ft_strncmp(&line[i], "EA ", 3) == 0)
 		return (parse_east_texture(game, line));
 	// Non dovremmo mai arrivare qui se is_valid_identifier funziona :(
-	fd_printf(2, "Error: Invalid texture identifier\n");// Spero iddio che non lo stampi mai
+	// Spero iddio che non lo stampi mai
+	fd_printf(2, "Error: Invalid texture identifier\n");
 	return (-1);
 }

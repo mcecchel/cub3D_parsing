@@ -6,7 +6,7 @@
 /*   By: mcecchel <mcecchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 17:00:37 by mcecchel          #+#    #+#             */
-/*   Updated: 2026/01/27 20:55:19 by mcecchel         ###   ########.fr       */
+/*   Updated: 2026/01/29 18:47:27 by mcecchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static int	parse_element(t_game *game, char *line)
 {
 	int	i;
 
-	i = skip_whitespaces(line, 0);
+	i = skip_spaces(line, 0);
 	// Controllo se è una texture (NO, SO, WE, EA)
 	if (ft_strncmp(&line[i], "NO ", 3) == 0
 		|| ft_strncmp(&line[i], "SO ", 3) == 0
@@ -93,17 +93,16 @@ int	parse_file(t_game *game, char *filename)
 		return (-1); // Errore nel parsing degli elementi
 	if (are_all_elements_set(game) == -1)
 		return (-1); // Mancano elementi obbligatori
-	// Estrazione mappa
-	if (validate_map(game) == -1)
-		return (-1); 
+	if (extract_map(game) == -1)
+		return (-1); // Errore nell'estrazione della mappa
 	fd_printf(1, "✅ Elements parsed successfully!\n");
 	fd_printf(1, "North: %s\n", game->tex_north->path);
 	fd_printf(1, "South: %s\n", game->tex_south->path);
 	fd_printf(1, "West: %s\n", game->tex_west->path);
 	fd_printf(1, "East: %s\n", game->tex_east->path);
-	fd_printf(1, "Floor: RGB(%d,%d,%d) = 0x%06X\n", 
-		game->floor->red, game->floor->green, game->floor->blue, game->floor->hex);
-	fd_printf(1, "Ceiling: RGB(%d,%d,%d) = 0x%06X\n", 
-		game->ceiling->red, game->ceiling->green, game->ceiling->blue, game->ceiling->hex);
+	fd_printf(1, "Floor: RGB(%d,%d,%d) = 0x%06X\n", game->floor->red,
+		game->floor->green, game->floor->blue, game->floor->hex);
+	fd_printf(1, "Ceiling: RGB(%d,%d,%d) = 0x%06X\n", game->ceiling->red,
+		game->ceiling->green, game->ceiling->blue, game->ceiling->hex);
 	return (0);
 }

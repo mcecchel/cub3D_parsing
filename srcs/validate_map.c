@@ -6,13 +6,12 @@
 /*   By: mcecchel <mcecchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 19:31:48 by mcecchel          #+#    #+#             */
-/*   Updated: 2026/01/27 20:55:05 by mcecchel         ###   ########.fr       */
+/*   Updated: 2026/01/28 16:23:39 by mcecchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-// Validazione completa della mappa
 int	validate_map(t_game *game)
 {
 	fd_printf(1, "🔍 Validating map...\n");

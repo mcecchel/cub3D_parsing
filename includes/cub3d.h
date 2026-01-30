@@ -6,7 +6,7 @@
 /*   By: mcecchel <mcecchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 14:41:04 by mcecchel          #+#    #+#             */
-/*   Updated: 2026/01/27 20:56:18 by mcecchel         ###   ########.fr       */
+/*   Updated: 2026/01/29 19:26:40 by mcecchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ typedef struct s_texture
 	t_image	*img;// Img caricata con MLX
 }				t_texture;
 
-// Struct per salvare colori floor/ceiling in formato RGB e convertirli in hex per MLX
+// Struct per salvare colori floor/ceiling in formato RGB
+// e convertirli in hex per MLX
 typedef struct s_color
 {
 	int		red;
@@ -117,11 +118,11 @@ typedef struct s_game
 // ==============================================
 
 // Controlla se il file ha estensione .cub
-int		check_file_extension(char *filename);
+int			check_file_extension(char *filename);
 // Controlla se il file esiste e se e' leggibile
-int		check_file_access(char *filename);
+int			check_file_access(char *filename);
 // Funzione principale per validare l'input
-int		validate_input(int ac, char **av);
+int			validate_input(int ac, char **av);
 
 // =============================================
 //            Inizializzazione gioco
@@ -140,148 +141,170 @@ t_game		*init_structs(void);
 // =============================================
 
 // Legge tutto il file e restituisce array di stringhe
-char	**read_file_lines(char *filename, int *line_count);
+char		**read_file_lines(char *filename, int *line_count);
 // Carica il file nella struttura parse
-int		load_file_to_parse(t_game *game, char *filename);
-// Funzione principale lettura file (read_file.c)
-char	**read_file(int fd);
+int			load_file_to_parse(t_game *game, char *filename);
+
+// Utility lettura file (read_file_utils.c)
+
+// Conta il numero di righe nel file
+int			count_file_lines(char *filename);
+// Apre e legge le righe dal file
+int			open_and_read_lines(char *filename, char **total_lines);
 
 // ==============================================
 //              Utility per parsing
 // ==============================================
 
 // Controlla se una riga è vuota o se composta da solo spazi
-int		is_line_empty(char *line);
+int			is_line_empty(char *line);
 // Salta spazi e tab, ritorna indice del primo char valido
-int		skip_whitespaces(char *str, int index);
+int			skip_spaces(char *str, int index);
 // Controlla se la riga inizia con un identificatore valido
-int		is_valid_identifier(char *line);
-int		is_valid_nbr(char *str);
+int			is_valid_identifier(char *line);
+int			is_valid_nbr(char *str);
 // Utility aggiuntive (parse_utils.c)
-char	*skip_whitespace(char *str);
-int		count_commas(char *str);
+char		*skip_whitespace(char *str);
+int			count_commas(char *str);
 
 // ==============================================
 //            Identificazione elementi
 // ==============================================
 
 // Identifica dove inizia la mappa
-int		find_map_start(t_game *game);
+int			find_map_start(t_game *game);
 // Identifica tipo di elemento nella riga
-int		identify_element(char *line);
+int			identify_element(char *line);
 
 // ==============================================
 //                Parsing texture
 // ==============================================
 
 // Estrae il path della texture da una riga
-char	*get_texture_path(char *line, int identifier_len);
+char		*get_texture_path(char *line, int identifier_len);
 // Verifica che il file texture esista
-int		validate_texture_file(char *path);
-int		parse_north_texture(t_game *game, char *line);
-int		parse_south_texture(t_game *game, char *line);
-int		parse_west_texture(t_game *game, char *line);
-int		parse_east_texture(t_game *game, char *line);
+int			validate_texture_file(char *path);
+int			parse_north_texture(t_game *game, char *line);
+int			parse_south_texture(t_game *game, char *line);
+int			parse_west_texture(t_game *game, char *line);
+int			parse_east_texture(t_game *game, char *line);
 // Funzione principale per parsing texture
-int		parse_texture(t_game *game, char *line);
+int			parse_texture(t_game *game, char *line);
 // Utility aggiuntive texture (parse_texture_utils.c)
-char	*extract_texture_path(char *line);
-int		validate_texture_path(char *path);
+char		*extract_texture_path(char *line);
+int			validate_texture_path(char *path);
 
 // ==============================================
 //                 Parsing colori
 // ==============================================
 
-int		parse_floor_color(t_game *game, char *line);
-int		parse_ceiling_color(t_game *game, char *line);
-int		parse_color(t_game *game, char *line);
+int			parse_floor_color(t_game *game, char *line);
+int			parse_ceiling_color(t_game *game, char *line);
+int			parse_color(t_game *game, char *line);
 
 // Utility aggiuntive colori (parse_color_utils.c)
 
 // Valida che un valore RGB sia nel range 0-255
-int		validate_rgb_val(int value);
-// Estrae e valida i 3 valori RGB da una stringa
-int		parse_rgb_values(char *rgb_str, int *values);
+int			validate_rgb_val(int value);
+// Valida e splitta la stringa RGB in 3 componenti
+char		**validate_and_split_rgb(char *rgb_str);
+// Parsa e valida un singolo valore RGB
+int			process_single_rgb_val(char *rgb_str, int *value);
+// Parsa e valida i tre valori RGB
+int			parse_rgb_vals(char *rgb_str, int *values);
 // Converte valori RGB in formato hex
-int		rgb_to_hex(int r, int g, int b);
+int			rgb_to_hex(int r, int g, int b);
 // Estrae la stringa RGB da una riga
-char	*extract_rgb_str(char *line, int identifier_len);
+char		*extract_rgb_str(char *line, int identifier_len);
 
 // ==============================================
 //                Estrazione mappa
 // ==============================================
 
-// Riempie la griglia con le righe della mappa
-int		fill_map_grid(t_game *game, char **map_grid, int map_width);
-int		extract_map(t_game *game);
+int			extract_map(t_game *game);
 
 // Utility per parsing mappa (validate_map_utils.c)
 
-// Calcola l'altezza della mappa (:quante righe NON vuote ci sono da map_start alla fine)
-int		get_map_height(t_game *game);
+// Calcola l'altezza della mappa
+// (:quante righe NON vuote ci sono da map_start alla fine)
+int			get_map_height(t_game *game);
 // Calcola la larghezza massima della mappa (:trova la riga più lunga)
-int		get_map_width(t_game *game);
+int			get_map_width(t_game *game);
 // Se la riga è più corta di width, crea padding di spazi
-char	*pad_map_line(char *line, int width);
+char		*pad_map_line(char *line, int width);
 // Alloca la griglia 2D per la mappa
-char	**alloc_map_grid(int height);
+char		**alloc_map_grid(int height);
 // Libera le righe della mappa in caso di errore
-void	free_map_rows(char **map_grid, int row_count);
+void		free_map_rows(char **map_grid, int row_count);
 
 // =============================================
 //               Validazione mappa
 // =============================================
 
 // Valida caratteri e trova il player
-int		validate_and_find_player(t_game *game);
+int			validate_and_find_player(t_game *game);
 // Verifica che la mappa sia chiusa
-int		validate_map_borders(t_game *game);
+int			validate_map_borders(t_game *game);
+// Controlla che i bordi siano muri o spazi validi
+int			check_borders_are_walls(t_game *game);
 // Validazione completa della mappa
-int		validate_map(t_game *game);
+int			validate_map(t_game *game);
 
-// Utility
+// Utility validazione bordi mappa (validate_map_borders_utils.c)
+
+// Crea una copia della mappa
+char		**copy_map(t_game *game);
+// Controlla se una posizione è valida
+bool		is_valid_position(t_game *game, int x, int y);
+// Controllo prima e ultima riga
+int			check_top_bottom_borders(t_game *game);
+// Controllo prima e ultima colonna
+int			check_left_right_borders(t_game *game);
+
+// Utility validazione caratteri mappa (validate_map_chars_utils.c)
 
 // Controlla se un carattere nella mappa è valido
-bool	is_valid_map_char(char c);
+bool		is_valid_map_char(char c);
 // Controlla se il carattere è il player
-bool	is_player_char(char c);
-// Imposta la direzione del player convertendo il carattere (N/S/E/W) in vettori direzione e piano camera
-void	set_player_direction(t_player *player, char dir);
+bool		is_player_char(char c);
+// Imposta la direzione del player convertendo il carattere (N/S/E/W)
+// in vettori direzione e piano camera
+void		set_player_direction(t_player *player, char dir);
 // Inizializza posizione e direzione del player
-void	init_player_position(t_game *game, int x, int y, char dir);
+void		init_player_position(t_game *game, int x, int y, char dir);
 
 // ==============================================
 //               Parsing principale
 // ==============================================
 
-int		parse_file(t_game *game, char *filename);
+int			parse_file(t_game *game, char *filename);
 
 // ==============================================
 //                  Gestione errori
 // ==============================================
 
 // Errori parsing file (parse_file_errors.c)
-int		print_file_error(char *filename);
-int		print_texture_error(int dir);
-int		print_color_error(char type);
-int		print_duplicate_error(char *element);
-int		print_missing_element_error(void);
+int			print_file_error(char *filename);
+int			print_texture_error(int dir);
+int			print_color_error(char type);
+int			print_duplicate_error(char *element);
+int			print_missing_element_error(void);
 
 // ==============================================
 //               Cleanup e Helpers
 // ==============================================
 
 // Libera array di stringhe (array 2D)
-void	free_array(char **arr);
+void		free_array(char **arr);
 // Libera texture
-void	free_texture(t_game *game, t_texture *texture);
+void		free_texture(t_game *game, t_texture *texture);
 // Libera mappa
-void	free_map(t_map *map);
+void		free_map(t_map *map);
 // Libera struttura di parsing
-void	free_parse(t_parse *parse);
+void		free_parse(t_parse *parse);
 // Libera schermo
-void	free_screen(t_game *game);
+void		free_screen(t_game *game);
 // Libera struttura di gioco completa
-void	free_game(t_game *game);
+void		free_game(t_game *game);
 
 #endif

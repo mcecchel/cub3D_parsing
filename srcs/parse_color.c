@@ -6,11 +6,31 @@
 /*   By: mcecchel <mcecchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 18:07:11 by mcecchel          #+#    #+#             */
-/*   Updated: 2026/01/27 20:50:01 by mcecchel         ###   ########.fr       */
+/*   Updated: 2026/01/29 18:46:42 by mcecchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+char	*extract_rgb_str(char *line, int identifier_len)
+{
+	char	*rgb_str;
+	char	*trimmed;
+	int		i;
+
+	i = identifier_len;
+	i = skip_spaces(line, i);
+	if (!line[i])
+		return (NULL);
+	// Estraggo la parte RGB
+	rgb_str = ft_strdup(&line[i]);
+	if (!rgb_str)
+		return (NULL);
+	// Rimuovo newline, spazi e tab all'inizio e alla fine
+	trimmed = ft_strtrim(rgb_str, " \t\n\r");
+	free(rgb_str);
+	return (trimmed);
+}
 
 int	parse_floor_color(t_game *game, char *line)
 {
@@ -28,7 +48,7 @@ int	parse_floor_color(t_game *game, char *line)
 	if (!rgb_str)
 		return (-1);
 	// Parso e valido i valori RGB
-	if (parse_rgb_values(rgb_str, rgb_val) == -1)
+	if (parse_rgb_vals(rgb_str, rgb_val) == -1)
 	{
 		free(rgb_str);
 		return (-1);
@@ -57,7 +77,7 @@ int	parse_ceiling_color(t_game *game, char *line)
 	rgb_str = extract_rgb_str(line, 1);
 	if (!rgb_str)
 		return (-1);
-	if (parse_rgb_values(rgb_str, rgb_val) == -1)
+	if (parse_rgb_vals(rgb_str, rgb_val) == -1)
 	{
 		free(rgb_str);
 		return (-1);
@@ -76,7 +96,7 @@ int	parse_color(t_game *game, char *line)
 {
 	int	i;
 
-	i = skip_whitespaces(line, 0);
+	i = skip_spaces(line, 0);
 	// Identifico se è floor o ceiling
 	if (ft_strncmp(&line[i], "F ", 2) == 0)
 		return (parse_floor_color(game, line));

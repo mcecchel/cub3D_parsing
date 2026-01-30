@@ -1,7 +1,7 @@
 NAME		= cub3D
 
 CC			= cc
-CFLAGS		= -Wall -Wextra -Werror -g
+CFLAGS		= -Wall -Wextra -Werror -g -pedantic
 INCLUDES	= -I./includes -I./Libft -I./mlx_linux
 
 SRC_DIR		= srcs
@@ -30,8 +30,10 @@ SRCS		= main.c \
 			  $(SRC_DIR)/utils/parse_color_utils.c \
 			  $(SRC_DIR)/utils/extract_map_utils.c \
 			  $(SRC_DIR)/utils/validate_map_chars_utils.c \
+			  $(SRC_DIR)/utils/validate_map_borders_utils.c \
 			  $(SRC_DIR)/utils/init_structs_utils.c \
 			  $(SRC_DIR)/utils/cleanup_utils.c \
+			  $(SRC_DIR)/utils/read_file_utils.c \
 			  $(SRC_DIR)/errors/parse_file_errors.c
 
 OBJS		= $(SRCS:.c=.o)
@@ -39,41 +41,38 @@ OBJS		= $(SRCS:.c=.o)
 GREEN		= \033[0;32m
 YELLOW		= \033[0;33m
 RED			= \033[0;31m
+GRAY		= \033[0;90m
 RESET		= \033[0m
 
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(MLX) $(OBJS)
-	@echo "$(YELLOW)Linking $(NAME)...$(RESET)"
+	@echo "$(GRAY)Linking $(NAME)...$(RESET)"
 	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(MLX_FLAGS) -o $(NAME)
-	@echo "$(GREEN)✓ $(NAME) compiled successfully!$(RESET)"
+	@echo "$(GREEN)$(NAME) compiled successfully!$(RESET)"
 
 %.o: %.c
-	@echo "$(YELLOW)Compiling $<...$(RESET)"
 	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 $(LIBFT):
-	@echo "$(YELLOW)Compiling libft...$(RESET)"
-	@$(MAKE) -C $(LIBFT_DIR) --no-print-directory
-	@echo "$(GREEN)✓ libft compiled!$(RESET)"
+	@echo "$(GRAY)Compiling libft...$(RESET)"
+	@$(MAKE) -C $(LIBFT_DIR) --no-print-directory > /dev/null 2>&1
 
 $(MLX):
-	@echo "$(YELLOW)Compiling MLX...$(RESET)"
-	@$(MAKE) -C $(MLX_DIR) --no-print-directory
-	@echo "$(GREEN)✓ MLX compiled!$(RESET)"
+	@echo "$(GRAY)Compiling MLX...$(RESET)"
+	@$(MAKE) -C $(MLX_DIR) --no-print-directory > /dev/null 2>&1
 
 clean:
-	@echo "$(RED)Cleaning object files...$(RESET)"
+	@echo "$(GRAY)Cleaning object files...$(RESET)"
 	@rm -f $(OBJS)
-	@$(MAKE) -C $(LIBFT_DIR) clean --no-print-directory
-	@$(MAKE) -C $(MLX_DIR) clean --no-print-directory
-	@echo "$(GREEN)✓ Object files cleaned!$(RESET)"
+	@$(MAKE) -C $(LIBFT_DIR) clean --no-print-directory > /dev/null 2>&1
+	@$(MAKE) -C $(MLX_DIR) clean --no-print-directory > /dev/null 2>&1
 
 fclean: clean
-	@echo "$(RED)Cleaning executable and libraries...$(RESET)"
+	@echo "$(GRAY)Cleaning executable and libraries...$(RESET)"
 	@rm -f $(NAME)
-	@$(MAKE) -C $(LIBFT_DIR) fclean --no-print-directory
-	@echo "$(GREEN)✓ All cleaned!$(RESET)"
+	@$(MAKE) -C $(LIBFT_DIR) fclean --no-print-directory > /dev/null 2>&1
+	@echo "$(GREEN)All cleaned!$(RESET)"
 
 re: fclean all
 
@@ -81,8 +80,11 @@ test: $(NAME)
 	@echo "$(YELLOW)Running test with maps/test.cub...$(RESET)"
 	@./$(NAME) maps/test.cub
 
-debug: CFLAGS += -g3 -fsanitize=address
-debug: re
+debug: CFLAGS += -g -fsanitize=address -DDEBUG
+debug: 
+	@echo "$(GRAY)Building in debug mode with AddressSanitizer...$(RESET)"
+	@$(MAKE) re --no-print-directory
+	@echo "$(GRAY)(Debug mode enabled)$(RESET)"
 
 .PHONY: all clean fclean re test debug
 .SILENT:
