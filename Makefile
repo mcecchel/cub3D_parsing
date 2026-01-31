@@ -33,7 +33,6 @@ SRCS		= main.c \
 			  $(SRC_DIR)/utils/validate_map_borders_utils.c \
 			  $(SRC_DIR)/utils/init_structs_utils.c \
 			  $(SRC_DIR)/utils/cleanup_utils.c \
-			  $(SRC_DIR)/utils/read_file_utils.c \
 			  $(SRC_DIR)/errors/parse_file_errors.c
 
 OBJS		= $(SRCS:.c=.o)

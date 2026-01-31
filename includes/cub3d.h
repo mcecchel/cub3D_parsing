@@ -6,7 +6,7 @@
 /*   By: mcecchel <mcecchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 14:41:04 by mcecchel          #+#    #+#             */
-/*   Updated: 2026/01/29 19:26:40 by mcecchel         ###   ########.fr       */
+/*   Updated: 2026/01/30 15:55:52 by mcecchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,17 +140,14 @@ t_game		*init_structs(void);
 //                 Lettura file
 // =============================================
 
-// Legge tutto il file e restituisce array di stringhe
-char		**read_file_lines(char *filename, int *line_count);
-// Carica il file nella struttura parse
-int			load_file_to_parse(t_game *game, char *filename);
-
-// Utility lettura file (read_file_utils.c)
-
 // Conta il numero di righe nel file
 int			count_file_lines(char *filename);
 // Apre e legge le righe dal file
 int			open_and_read_lines(char *filename, char **total_lines);
+// Legge tutto il file e restituisce array di stringhe
+char		**read_file_lines(char *filename, int *line_count);
+// Carica il file nella struttura parse
+int			load_file_to_parse(t_game *game, char *filename);
 
 // ==============================================
 //              Utility per parsing
